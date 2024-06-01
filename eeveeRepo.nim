@@ -46,6 +46,7 @@ proc getLatestAssets(): seq[NimAsset] =
 # i mean, theres only one ipa per release, and im not uploading the debug version
 # whatever lol!!!!
 var repo = parseFile("repo.json")
+repo["apps"] = newJArray()
 for asset in getLatestAssets():
   repo["apps"].add(%*{
     "name": "EeveeSpotify",
