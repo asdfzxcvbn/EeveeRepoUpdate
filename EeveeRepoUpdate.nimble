@@ -1,4 +1,4 @@
-version       = "0.1"
+version       = "2.0"
 author        = "zx"
 description   = "nim script to update EeveeSpotify's repo"
 license       = "MIT"
