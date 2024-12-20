@@ -1,12 +1,12 @@
 # EeveeRepoUpdate
-nim script to update EeveeSpotify's repo, on my profile because i want to boost the nim percentage shit on my profile :P
+script to update EeveeSpotify's repo, on my profile because i want to boost the go percentage shit on my profile :3
 
 ## compilation
-install [nim](https://nim-lang.org/install_unix.html)
+install [go](https://go.dev)
 
-`nimble build -d:release -d:ssl --opt:speed --cpu:amd64 --os:linux`
+`GOOS=linux GOARCH=amd64 go build -ldflags="-w -s"`
 
 ## usage
-must have repo.json in your working dir, and it must have "apps" array defined
+must have repo.json in your working dir, and it must have "apps" array defined. also the permissions ig, see [UniversalRepoFmt](https://github.com/asdfzxcvbn/UniversalRepoFmt)
 
 then just call the built executable lol
