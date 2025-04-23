@@ -2,21 +2,20 @@ package main
 
 import (
 	"encoding/json"
-	"io"
 	"net/http"
 	"path/filepath"
 	"strings"
 )
 
-func AllVersions(uni *Universal) []string {
-	versions := make([]string, 0, len(uni.Apps))
+func AllDownloadURLs(uni *Universal) []string {
+	urls := make([]string, 0, len(uni.Apps))
 	for _, app := range uni.Apps {
-		versions = append(versions, app.Version)
+		urls = append(urls, app.DownloadURL)
 	}
-	return versions
+	return urls
 }
 
-func GetLatestAssets() (*[]GitHubAsset, error) {
+func GetLatestAssets() ([]GitHubAsset, error) {
 	req, _ := http.NewRequest(
 		http.MethodGet,
 		"https://api.github.com/repos/whoeevee/EeveeSpotify/releases/latest",
@@ -31,16 +30,14 @@ func GetLatestAssets() (*[]GitHubAsset, error) {
 	}
 	defer resp.Body.Close()
 
-	rbody, _ := io.ReadAll(resp.Body)
-
 	var ghresp struct {
 		Assets []GitHubAsset `json:"assets"`
 	}
-	if err = json.Unmarshal(rbody, &ghresp); err != nil {
+	if err = json.NewDecoder(resp.Body).Decode(&ghresp); err != nil {
 		return nil, err
 	}
 
-	assets := make([]GitHubAsset, 0)
+	assets := make([]GitHubAsset, 0, len(ghresp.Assets))
 	for _, asset := range ghresp.Assets {
 		if !strings.HasSuffix(asset.URL, ".ipa") || strings.Contains(asset.URL, "debug") {
 			continue
@@ -51,5 +48,5 @@ func GetLatestAssets() (*[]GitHubAsset, error) {
 		assets = append(assets, asset)
 	}
 
-	return &assets, nil
+	return assets, nil
 }

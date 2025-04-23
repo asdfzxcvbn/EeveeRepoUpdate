@@ -18,16 +18,16 @@ func main() {
 		log.Fatal(err)
 	}
 
-	versions := AllVersions(uni)
+	urls := AllDownloadURLs(uni)
 
 	assets, err := GetLatestAssets()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, asset := range *assets {
+	for _, asset := range assets {
 		// prevent duplicate version when running workflow
-		if slices.Contains(versions, asset.Version) {
+		if slices.Contains(urls, asset.URL) {
 			continue
 		}
 
@@ -51,7 +51,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if err = os.WriteFile("repo.json", formatted, 0755); err != nil {
+	if err = os.WriteFile("repo.json", formatted, 0644); err != nil {
 		log.Fatal(err)
 	}
 }
