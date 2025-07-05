@@ -39,7 +39,7 @@ func GetLatestAssets() ([]GitHubAsset, error) {
 
 	assets := make([]GitHubAsset, 0, len(ghresp.Assets))
 	for _, asset := range ghresp.Assets {
-		if !strings.HasSuffix(asset.URL, ".ipa") || strings.Contains(asset.URL, "debug") {
+		if !strings.HasSuffix(asset.URL, ".ipa") || strings.Contains(asset.URL, "debug") || strings.Contains(asset.URL, "patched") {
 			continue
 		}
 
